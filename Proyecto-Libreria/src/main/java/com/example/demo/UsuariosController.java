@@ -104,9 +104,11 @@ public class UsuariosController {
 		ResultSet resultado = consulta.executeQuery();
 
 		if (resultado.next()) {
+			String urlImagen = resultado.getString("url_foto");
 			String nombre = resultado.getString("nombre");
 			String contrasenia = resultado.getString("contrasenia");
 			
+			template.addAttribute("urlImagen", urlImagen);
 			template.addAttribute("nombreDeUsuario", nombre);
 			template.addAttribute("contrasenia", contrasenia);
 			
