@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+	<head>
+	 <title>Detalle Usuario</title>
+		<link rel="stylesheet" type="text/css" href="/css/estilos.css"></link>
+	<script src="https://static.filestackapi.com/v3/filestack.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+	crossorigin="anonymous"></script>
+	<script src="/js/imagen.js"></script>
+		<meta charset="UTF-8"></meta>
+	</head>
+
+	<body>
+		<div class="tarjeta-libros">
+			<img th:src="${urlImagen}" title="imagenDePerfil" class="imagenDePerfil"></img>
+			<label>Nombre: </label><label th:text="${nombreDeUsuario}">to</label><br></br>
+			<label>Contraseña: </label><label th:text="${contrasenia}">sdds</label><br></br>
+		</div>
+	</body>
+
+</html>

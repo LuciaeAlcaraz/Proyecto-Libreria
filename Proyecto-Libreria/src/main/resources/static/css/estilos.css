@@ -1,0 +1,20 @@
+.tarjeta-libros {
+	border: 2px solid black;
+	margin: 20px;
+	padding: 10px;
+}
+
+.tarjeta-libros:hover {
+	background-color: #b6dcced9;
+}
+
+.seleccionada {
+	background-color: #009688bf;
+}
+
+.imagenDePerfil {
+	width: 30px;
+}
+.imagenDePortada {
+	width: 50px;
+}

@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Listado de Libros</title>
+		<link rel="stylesheet" type="text/css" href="/css/estilos.css"></link>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+	crossorigin="anonymous"></script>
+
+		<script src="/js/listado.js"></script>
+		<meta charset="UTF-8"></meta>
+	</head>
+
+	<body>
+		<form action="/resultado-busqueda">
+			<input type="text" name="palabraBuscada"></input>
+			<input type="submit" value="Buscar"></input><br></br>
+			<label>Seleccionar todos</label>
+			<input id="seleccionarTodas" type="checkbox" ></input>
+		
+		</form>
+	
+		<div class="tarjeta-libros" th:each="libros:${listadoLibros}">
+			<img th:src="${libros.url_fotolibro}" title="imagenDePortada" class="imagenDePortada"></img><br></br>
+			<label>Titulo: </label><a th:href="'/detalleLibro/' + ${libros.id}" th:text="${libros.titulo}">Titulo</a><br></br>
+			<label>Autor: </label><label th:text="${libros.autor}">Autor</label><br></br>
+			<label>Editorial: </label><label th:text="${libros.editorial}">Editorial</label><br></br>
+			<label>Año: </label><label th:text="${libros.anio}">2018</label><br></br>
+			<a th:href="'/eliminarLibro/' + ${libros.id}">Eliminar libro</a>
+		</div>
+	</body>
+</html>

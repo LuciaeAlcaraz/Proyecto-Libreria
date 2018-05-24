@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Ingresar</title>
+		<link rel="stylesheet" type="text/css" href="/css/estilos.css"></link>
+		<meta charset="UTF-8"></meta>
+	</head>
+
+	<body>
+		<h2>Ingresar: </h2>
+		<label th:text="${mensaje}">dfjahg</label>
+
+		<form action="/procesar-login" method="POST">
+			<input type="text" name="nombre" placeholder="nombre..."></input>
+			 <input type="password" name="contrasenia" placeholder="contraseña..."></input>
+			  <input type="submit"></input>
+		</form>
+
+</body>
+
+</html>

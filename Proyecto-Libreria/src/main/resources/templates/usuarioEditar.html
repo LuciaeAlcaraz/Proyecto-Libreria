@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Editar Usuario</title>
+		<link rel="stylesheet" type="text/css" href="/css/estilos.css"></link>
+		<script src="https://static.filestackapi.com/v3/filestack.js"></script>
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+	crossorigin="anonymous"></script>
+	<script src="/js/imagen.js"></script>
+		<meta charset="UTF-8"></meta>
+	</head>
+
+	<body>
+		<h2>Ingrese sus datos: </h2>
+		<label th:text="${mensaje}"></label>
+		
+		<form th:action="'/modificarUsuario/' + ${id}" method="POST">
+			<input id="urlImagen" type="text" name="urlImagen"></input>
+			<input id="subirImagen" type="button"  value="Subir Imagen"></input>
+			<input type="text" name="nombre" placeholder="Nombre de usuario" th:value="${nombreDeUsuario}"></input>
+			<input type="password" name="contrasenia" placeholder="Contraseña" th:value="${contrasenia}"></input>
+			<input type="submit" value="Enviar"></input>
+		</form>
+		
+	</body>
+
+</html>
