@@ -7,19 +7,24 @@
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
 		crossorigin="anonymous"></script>
 		<script src="/js/imagen.js"></script>
+		<script src="/js/listado.js"></script>
 		<meta charset="UTF-8"></meta>
 	</head>
 
 	<body>
 		<h2>Editar Libro:</h2>
 		<form th:action="'/modificarLibro/' + ${id}" method="POST">
-			<input id="urlImagen" type="text" name="urlImagen" th:value="${urlImagen}"></input>
+			<img th:src="${urlImagen}" title="imagenDePerfil" class="verPortada"></img>
+			<input id="urlImagen" type="text" hidden="hidden" name="urlImagen" th:value="${urlImagen}"></input>
 			<input id="subirImagen" type="button"  value="Cambiar Portada"></input><br></br>
 			<label>Titulo: </label> <input type="text" name="titulo" th:value="${titulo}"></input><br></br>
 			<label>Autor: </label> <input name="autor" type="text" th:value="${autor_a}"></input><br></br>
 			<label>Editorial: </label> <input name="editorial" type="text" th:value="${editorial}"></input><br></br>
 			<label>Año: </label><input type="number" name="anio" min="1800" max="2099" step="1" th:value="${anio}" /><br></br>
-			<label>Sinopsis: </label><input id="sinopsis" name="sinopsis" th:value="${sinopsis}"></input>
+			<label>Sinopsis: </label><input id="sinopsis" name="sinopsis" th:value="${sinopsis}"></input><br></br>
+			<label>Géneros</label><br></br>
+			<!--  <input id="genero" type="checkbox" name="genero">Fantasía</input> --> 
+			<input type="text" name="genero" class="genero"  th:value="${genero}"></input><br></br>
 			<input type="submit"></input>
 		</form>
 		

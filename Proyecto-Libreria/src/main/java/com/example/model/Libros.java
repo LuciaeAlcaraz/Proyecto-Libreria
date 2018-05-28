@@ -8,16 +8,18 @@ public class Libros {
 		private String editorial;
 		private int anio;
 		private String url_fotolibro;
+		private String genero;
 		
-		public Libros(int i, String t, String a, String e, int anio, String u){
+		public Libros(int i, String t, String a, String e, int anio, String u, String g){
 			this.id = i;
 			this.titulo = t;
 			this.autor = a;
 			this.editorial = e;
 			this.anio = anio;
 			this.url_fotolibro = u;
+			this.genero = g;
 		}
-		
+
 		public int getId() {
 			return id;
 		}
@@ -65,7 +67,11 @@ public class Libros {
 		public void setUrl_fotolibro(String url_fotolibro) {
 			this.url_fotolibro = url_fotolibro;
 		}
-		
+		public String getGenero() {
+			return genero;
+		}
+
+		public void setGenero(String genero) {
+			this.genero = genero;
+		}
 	}
-
-

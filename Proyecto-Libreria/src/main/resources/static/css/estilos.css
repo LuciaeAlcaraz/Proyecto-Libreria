@@ -18,6 +18,9 @@
 .imagenDePortada {
 	width: 50px;
 }
+.verPortada, verImagenPerfil {
+	width: 90px;
+}
 #sinopsis {
 	width: 400px;
 }

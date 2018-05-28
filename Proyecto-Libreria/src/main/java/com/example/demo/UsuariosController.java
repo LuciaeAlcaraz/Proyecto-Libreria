@@ -35,6 +35,31 @@ public class UsuariosController {
 		return "saludo";
 	}
 
+	@GetMapping("/login")
+	public String login() {
+		return "login"; 
+	}
+	
+	@PostMapping("/procesar-login")
+	public String procesarLogin(HttpSession session, Model template, @RequestParam String contrasenia, @RequestParam String nombre)
+			throws SQLException {
+		boolean sePudo = UsuarioHelper.intentarLoguearse(session, nombre, contrasenia);
+		if (sePudo) {
+			return "redirect:/paginaBienvenida";
+		} else {
+			template.addAttribute("mensaje", "La información ingresada no es correcta");
+			template.addAttribute("nombreDeUsuario", nombre);
+			template.addAttribute("contrasenia", contrasenia);
+			return "login";
+		}
+	}
+	
+	@GetMapping("/logout")
+	public String logOut(HttpSession session) throws SQLException {
+		UsuarioHelper.cerrarSesion(session);
+		return "redirect:/login";
+	}	
+
 	@GetMapping("/registrarUsuario")
 	public String registrarUsuario() {
 		return "usuarioRegistro";
@@ -66,31 +91,6 @@ public class UsuariosController {
 		return "redirect:/paginaBienvenida";
 	}
 	
-	@GetMapping("/login")
-	public String login() {
-		return "login"; 
-	}
-	
-	@PostMapping("/procesar-login")
-	public String procesarLogin(HttpSession session, Model template, @RequestParam String contrasenia, @RequestParam String nombre)
-			throws SQLException {
-		boolean sePudo = UsuarioHelper.intentarLoguearse(session, nombre, contrasenia);
-		if (sePudo) {
-			return "redirect:/paginaBienvenida";
-		} else {
-			template.addAttribute("mensaje", "La información ingresada no es correcta");
-			template.addAttribute("nombreDeUsuario", nombre);
-			template.addAttribute("contrasenia", contrasenia);
-			return "login";
-		}
-	}
-	
-	@GetMapping("/logout")
-	public String logOut(HttpSession session) throws SQLException {
-		UsuarioHelper.cerrarSesion(session);
-		return "redirect:/login";
-	}	
-
 	@GetMapping("/editarUsuario/{id}")
 	public String editar(Model template, @PathVariable int id) throws SQLException {
 

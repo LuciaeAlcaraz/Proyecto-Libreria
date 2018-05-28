@@ -22,6 +22,7 @@
 			<img th:src="${usuarios.url_imagen}" title="imagenDePerfil" class="imagenDePerfil"></img>
 			<label>Nombre: </label><a th:href="'/detalleUsuario/' + ${usuarios.id}" th:text="${usuarios.nombre}">Nombre</a><br></br>
 			<label>contrasenia: </label><label th:text="${usuarios.contrasenia}">Contrasenia</label><br></br>
+			<a th:href="'/editarUsuario/' + ${usuarios.id}">Editar usuario</a>
 			<a th:href="'/eliminarUsuario/' + ${usuarios.id}">Eliminar usuario</a>
 		</div>
 	</body>

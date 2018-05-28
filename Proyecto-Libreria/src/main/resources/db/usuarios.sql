@@ -1,12 +1,11 @@
 CREATE SEQUENCE public.usuarios_id_usuario_seq
     INCREMENT 1
-    START 3
+    START 1
     MINVALUE 1
     MAXVALUE 2147483647
     CACHE 1;
 
-ALTER SEQUENCE public.usuarios_id_usuario_seq
-    OWNER TO postgres;
+ALTER SEQUENCE public.usuarios_id_usuario_seq;
     
 -- Table: public.usuarios
 
@@ -26,9 +25,8 @@ WITH (
 )
 TABLESPACE pg_default;
 
-ALTER TABLE public.usuarios
-    OWNER to postgres;
+ALTER TABLE public.usuarios;
     
-INSERT INTO usuarios( nombre, contrasenia) VALUES ('Maria', '123');
-INSERT INTO usuarios( nombre, contrasenia) VALUES ('Ana', 'hjaogb323');
-INSERT INTO usuarios( nombre, contrasenia) VALUES ('Fabian', 'hola456');
+INSERT INTO usuarios( nombre, contrasenia, url_foto) VALUES ('Maria', '12345', 'https://cdn.filestackcontent.com/bU7TFjI8QP2B1j7jSf8g');
+INSERT INTO usuarios( nombre, contrasenia, url_foto) VALUES ('Valen', 'contrasenia123', 'https://cdn.filestackcontent.com/SlKbdPDISUqRPo0yyl55');
+INSERT INTO usuarios( nombre, contrasenia, url_foto) VALUES ('Fabian', 'hola', 'https://cdn.filestackcontent.com/XFuZu1cNRlmQNOBxE61e');

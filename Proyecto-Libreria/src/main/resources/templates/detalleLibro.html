@@ -10,11 +10,13 @@
 		<div class="tarjeta-libros">
 			<img th:src="${urlImagen}" title="imagenDePortada" class="imagenDePortada"></img><br></br>
 			<label>Titulo: </label><label th:text="${titulo}">to</label><br></br>
-			<label>Autor: </label><label th:text="${autor}">sdds</label><br></br>
+			<label>Autor: </label><label th:text="${autor_a}">sdds</label><br></br>
 			<label>Editorial: </label><label th:text="${editorial}">true</label><br></br>
 			<label>Año: </label><label th:text="${anio}">true</label><br></br>
 			<label>Sinopsis:</label><br></br>
-			<label th:text="${sinopsis}"></label>
+			<label th:text="${sinopsis}"></label><br></br>
+			<label>Genero: </label><label th:text="${genero}"></label><br></br>
+			<a href="/listadoDeLibros/">Volver a listado</a>
 		</div>
 	</body>
 
