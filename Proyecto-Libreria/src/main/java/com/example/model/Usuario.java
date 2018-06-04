@@ -1,6 +1,6 @@
 package com.example.model;
 
-public class Usuarios {
+public class Usuario {
 
 	private int id;
 	private String nombre;
@@ -11,7 +11,7 @@ public class Usuarios {
 		return id;
 	}
 	
-	public Usuarios(int i, String n, String c, String u){
+	public Usuario(int i, String n, String c, String u){
 		this.id = i;
 		this.nombre = n;
 		this.contrasenia = c;

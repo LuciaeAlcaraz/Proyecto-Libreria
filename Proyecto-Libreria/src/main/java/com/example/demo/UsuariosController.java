@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.model.Usuarios;
+import com.example.model.Usuario;
 
 @Controller
 public class UsuariosController {
@@ -188,7 +188,7 @@ public class UsuariosController {
 
 		ResultSet resultado = consulta.executeQuery();
 
-		ArrayList<Usuarios> listadoUsuarios = new ArrayList<Usuarios>();
+		ArrayList<Usuario> listadoUsuarios = new ArrayList<Usuario>();
 
 		while (resultado.next()) {
 			int id = resultado.getInt("id_usuario");
@@ -196,7 +196,7 @@ public class UsuariosController {
 			String contrasenia = resultado.getString("contrasenia");
 			String urlImagen = resultado.getString("url_foto");
 			
-			Usuarios x = new Usuarios(id, nombre, contrasenia, urlImagen);
+			Usuario x = new Usuario(id, nombre, contrasenia, urlImagen);
 			listadoUsuarios.add(x);
 		}
 

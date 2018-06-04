@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.model.Libros;
+import com.example.model.Comentarios;
+import com.example.model.Libro;
 
 @Controller
 public class LibrosController {
@@ -24,7 +25,7 @@ public class LibrosController {
 	@Autowired
 	private Environment env;
 
-	@GetMapping("/bienvenido")
+	@GetMapping("/")
 	public String bienvenido() {
 		return "saludo";
 	}
@@ -145,12 +146,12 @@ public class LibrosController {
 		connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),
 				env.getProperty("spring.datasource.username"), env.getProperty("spring.datasource.password"));
 
-		PreparedStatement consulta = connection.prepareStatement("SELECT * FROM libros WHERE id_libros = ?;");
+		PreparedStatement consulta = connection.prepareStatement(
+				"SELECT * FROM libros WHERE id_libros = ?;");
 
 		consulta.setInt(1, id);
 
 		ResultSet resultado = consulta.executeQuery();
-
 		if (resultado.next()) {
 			String urlImagen = resultado.getString("url_fotolibro");
 			String titulo = resultado.getString("titulo");
@@ -167,9 +168,48 @@ public class LibrosController {
 			template.addAttribute("anio", anio);
 			template.addAttribute("sinopsis", sinopsis);
 			template.addAttribute("genero", genero);
+
 		}
+		
+		PreparedStatement consulta2 = connection.prepareStatement("SELECT * FROM comentarios WHERE id_libros = ?;");
+		
+		consulta2.setInt(1, id);
+		ResultSet resultado2 = consulta2.executeQuery();
+		
+		ArrayList<Comentarios> listadoComentarios = new ArrayList<Comentarios>();
+
+		while (resultado2.next()) {
+			int id_comentario = resultado2.getInt("id_comentario");
+			int id_libros = resultado2.getInt("id_libros");
+			int id_usuario = resultado2.getInt("id_usuario");
+			String comentario = resultado2.getString("comentario");
+
+			Comentarios c = new Comentarios(id_comentario, id_libros, id_usuario, comentario);
+			listadoComentarios.add(c);
+		}
+		
+		template.addAttribute("listadoComentarios", listadoComentarios);
 
 		return "detalleLibro";
+	}
+	@PostMapping("/procesar-comentario/{id}")
+	public String procesarComentario(Model template , @RequestParam int id, @RequestParam int id_usuario, @RequestParam String comentario) throws SQLException {
+			Connection connection;
+			connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),
+					env.getProperty("spring.datasource.username"), env.getProperty("spring.datasource.password"));
+
+			PreparedStatement consulta = connection.prepareStatement("INSERT INTO comentarios(id_libros, id_usuario, comentario) VALUES( ?, ?, ?);");
+			consulta.setInt(1, id);
+			consulta.setInt(2, id_usuario);
+			consulta.setString(3, comentario);
+			
+			template.addAttribute("comentario", comentario);
+			
+			consulta.executeUpdate();
+
+			connection.close();
+			return "redirect:/detalleLibro/" + id ;
+		
 	}
 
 	@GetMapping("/eliminarLibro/{id}")
@@ -198,7 +238,7 @@ public class LibrosController {
 
 		ResultSet resultado = consulta.executeQuery();
 
-		ArrayList<Libros> listadoLibros = new ArrayList<Libros>();
+		ArrayList<Libro> listadoLibros = new ArrayList<Libro>();
 
 		while (resultado.next()) {
 			int id = resultado.getInt("id_libros");
@@ -209,7 +249,7 @@ public class LibrosController {
 			int anio = resultado.getInt("anio");
 			String genero = resultado.getString("genero");
 
-			Libros x = new Libros(id, titulo, autor, editorial, anio, urlImagen, genero);
+			Libro x = new Libro(id, titulo, autor, editorial, anio, urlImagen, genero);
 			listadoLibros.add(x);
 		}
 
@@ -238,7 +278,7 @@ public class LibrosController {
 			PreparedStatement consulta = connection.prepareStatement("SELECT * FROM libros WHERE autor_a LIKE ?");
 			consulta.setString(1, "%" + busqueda + "%");
 			ResultSet resultado = consulta.executeQuery();
-			ArrayList<Libros> listadoLibros = new ArrayList<Libros>();
+			ArrayList<Libro> listadoLibros = new ArrayList<Libro>();
 
 			while (resultado.next()) {
 				int id = resultado.getInt("id_libros");
@@ -249,7 +289,7 @@ public class LibrosController {
 				int anio = resultado.getInt("anio");
 				String genero = resultado.getString("genero");
 
-				Libros x = new Libros(id, titulo, autor, editorial, anio, urlImagen, genero);
+				Libro x = new Libro(id, titulo, autor, editorial, anio, urlImagen, genero);
 				listadoLibros.add(x);
 				template.addAttribute("listadoLibros", listadoLibros);
 			}
@@ -262,7 +302,7 @@ public class LibrosController {
 			PreparedStatement consulta = connection.prepareStatement("SELECT * FROM libros WHERE titulo LIKE ?");
 			consulta.setString(1, "%" + busqueda + "%");
 			ResultSet resultado = consulta.executeQuery();
-			ArrayList<Libros> listadoLibros = new ArrayList<Libros>();
+			ArrayList<Libro> listadoLibros = new ArrayList<Libro>();
 
 			while (resultado.next()) {
 				int id = resultado.getInt("id_libros");
@@ -273,12 +313,12 @@ public class LibrosController {
 				int anio = resultado.getInt("anio");
 				String genero = resultado.getString("genero");
 
-				Libros x = new Libros(id, titulo, autor, editorial, anio, urlImagen, genero);
+				Libro x = new Libro(id, titulo, autor, editorial, anio, urlImagen, genero);
 				listadoLibros.add(x);
 				template.addAttribute("listadoLibros", listadoLibros);
 			}
 		}
-		
+
 		return "listadoLibros";
-}
+	}
 }

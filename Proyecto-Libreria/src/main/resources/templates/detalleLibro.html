@@ -18,6 +18,12 @@
 			<label>Genero: </label><label th:text="${genero}"></label><br></br>
 			<a href="/listadoDeLibros/">Volver a listado</a>
 		</div>
+		<form action="/procesar-comentario" method="POST">
+			<textarea cols="" name="comentario" placeholder="Agregar comentario..."></textarea>
+			</form>
+		<div class="tarjeta-comentarios" th:each="comentarios:${listadoComentarios}">
+			<label th:text="${comentarios.comentario}">Comentario</label><br></br>
+		</div>
 	</body>
 
 </html>

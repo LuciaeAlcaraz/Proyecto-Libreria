@@ -1,6 +1,6 @@
 package com.example.model;
 
-public class Libros {
+public class Libro {
 
 		private int id;
 		private String titulo;
@@ -10,7 +10,7 @@ public class Libros {
 		private String url_fotolibro;
 		private String genero;
 		
-		public Libros(int i, String t, String a, String e, int anio, String u, String g){
+		public Libro(int i, String t, String a, String e, int anio, String u, String g){
 			this.id = i;
 			this.titulo = t;
 			this.autor = a;
