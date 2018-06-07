@@ -3,7 +3,7 @@ package com.example.model;
 public class Comentarios {
 
 	private int id_comentario;
-	private int id_libros;
+	private int id_libro;
 	private int id_usuario;
 	private String comentario;
 	
@@ -13,17 +13,17 @@ public class Comentarios {
 	
 	public Comentarios(int ic, int il, int iu, String c){
 		this.id_comentario = ic;
-		this.id_libros = il;
+		this.id_libro = il;
 		this.id_usuario = iu;
 		this.comentario = c;
 	}
 
-	public int getId_libros() {
-		return id_libros;
+	public int getId_libro() {
+		return id_libro;
 	}
 
-	public void setId_libros(int id_libros) {
-		this.id_libros = id_libros;
+	public void setId_libro(int id_libro) {
+		this.id_libro = id_libro;
 	}
 
 	public int getId_usuario() {

@@ -11,12 +11,3 @@ $(document).ready(function() {
 	});
 });
 
-//$(document).ready(function() {
-	//$('#genero').click(function(result) {
-		//	 if ($(this).is(":checked")){
-			//	 $(".genero").val("Fantasía");
-			 //}else{
-				// $(".genero").val("");
-			 //}
-//	});
-//});

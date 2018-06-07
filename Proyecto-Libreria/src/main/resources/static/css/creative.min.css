@@ -24,7 +24,7 @@ a {
 	transition: all .2s
 }
 
-a:hover {
+a:hover{
 	color: #f05f40
 }
 
@@ -252,14 +252,14 @@ header.masthead p {
 
 .portfolio-box .portfolio-box-caption .portfolio-box-caption-content .project-category
 	{
-	font-size: 14px;
+	font-size: 10px;
 	font-weight: 600;
 	text-transform: uppercase
 }
 
 .portfolio-box .portfolio-box-caption .portfolio-box-caption-content .project-name
 	{
-	font-size: 18px
+	font-size: 10px
 }
 
 .portfolio-box:hover .portfolio-box-caption {
@@ -273,11 +273,11 @@ header.masthead p {
 @media ( min-width :768px) {
 	.portfolio-box .portfolio-box-caption .portfolio-box-caption-content .project-category
 		{
-		font-size: 16px
+		font-size: 13px
 	}
 	.portfolio-box .portfolio-box-caption .portfolio-box-caption-content .project-name
 		{
-		font-size: 22px
+		font-size: 11px
 	}
 }
 
@@ -297,16 +297,16 @@ header.masthead p {
 	padding: 1rem 2rem
 }
 
-.btn-primary {
-	background-color: #944ea0d1;
-	border-color: #81488b
+.btn-primary, #subirImagen {
+	background-color: #f51d0d;
+	border-color: #f51d0d;
 }
 
-.btn-primary:active, .btn-primary:focus, .btn-primary:hover {
+.btn-primary:active, .btn-primary:focus, .btn-primary:hover{
 	color: #fff;
 	background-color: #ee4b28 !important
 }
 
-.btn-primary:active, .btn-primary:focus {
+.btn-primary:active, .btn-primary:focus{
 	box-shadow: 0 0 0 .2rem rgba(240, 95, 64, .5) !important
 }

@@ -32,7 +32,7 @@ public class UsuariosController {
 	
 	@GetMapping("/paginaBienvenida")
 	public String bienvenida() {
-		return "saludo";
+		return "estructura";
 	}
 
 	@GetMapping("/login")

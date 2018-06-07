@@ -7,9 +7,7 @@ public class Usuario {
 	private String contrasenia;
 	private String url_imagen;
 	
-	public int getId() {
-		return id;
-	}
+
 	
 	public Usuario(int i, String n, String c, String u){
 		this.id = i;
@@ -19,11 +17,17 @@ public class Usuario {
 	}
 
 	
-	public void setId(int id) {
+	public int getId_usuario( ) {
+		return this.id;
+	}
+	public void setId_usuario(int id) {
 		this.id = id;
 	}
 	public String getNombre() {
 		return nombre;
+	}
+	public String getNombre(String nombre) {
+		return this.nombre = nombre; 	
 	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;

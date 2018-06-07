@@ -28,7 +28,6 @@ public class UsuarioHelper {
 		
 		PreparedStatement consulta = 
 				connection.prepareStatement("SELECT * FROM usuarios WHERE nombre = ? AND contrasenia = ?;");
-
 		consulta.setString(1, nombre);
 		consulta.setString(2, contra);
 		
@@ -50,7 +49,7 @@ public class UsuarioHelper {
 		}
 	}
 	
-	public Usuario usuarioLogueado(HttpSession session) throws SQLException{
+	public  Usuario usuarioLogueado(HttpSession session) throws SQLException{
 		String codigo = (String)session.getAttribute("codigo-autorizacion");
 
 		if (codigo != null) {
@@ -66,7 +65,7 @@ public class UsuarioHelper {
 			
 			if ( resultado.next() ) {
 				// ARMAR Y DEVOLVE ESE USUARIO
-				Usuario logueado = new Usuario( resultado.getInt("id"), resultado.getString("nombre"), resultado.getString("contrasenia"), resultado.getString("urlImagen"));
+				Usuario logueado = new Usuario( resultado.getInt("id_usuario"), resultado.getString("nombre"), resultado.getString("contrasenia"), resultado.getString("url_foto"));
 				return logueado;
 			} else {
 				return null;

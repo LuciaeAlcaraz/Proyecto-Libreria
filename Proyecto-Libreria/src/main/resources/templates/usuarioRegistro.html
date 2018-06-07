@@ -20,7 +20,7 @@
 		<form action="/nuevoUsuario" method="POST">
 			<input id="urlImagen" hidden="hidden" type="text" name="urlImagen"></input>
 			<input id="subirImagen" type="button"  value="Subir Imagen"></input>
-			<input type="text" name="nombre" placeholder="Nombre de usuario" th:value="${nombreDeUsuario}"></input>
+			<input type="text" name="nombre" placeholder="Nombre de usuario" th:value="${nombreDeUsuario}" maxlength="40"></input>
 			<input type="password" name="contrasenia" placeholder="Contraseña" th:value="${contrasenia}"></input>
 			<input type="submit" value="Enviar"></input>
 		</form>

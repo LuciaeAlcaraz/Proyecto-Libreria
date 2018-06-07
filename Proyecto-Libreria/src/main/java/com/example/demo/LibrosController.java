@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
@@ -18,27 +20,35 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.model.Comentarios;
 import com.example.model.Libro;
+import com.example.model.Usuario;
 
 @Controller
 public class LibrosController {
-
+	
+	
 	@Autowired
 	private Environment env;
 
+	@Autowired
+	private UsuarioHelper UsuarioHelper;
+	
 	@GetMapping("/")
 	public String bienvenido() {
-		return "saludo";
+		return "estructura";
 	}
 
 	@GetMapping("/nuevoLibro")
 	public String nuevoLibro() {
+		
+
 		return "ingresarLibro";
 	}
 
 	@PostMapping("/insertar-nuevoLibro")
-	public String insertarUsuario(Model template, @RequestParam String titulo, @RequestParam String autor,
+	public String insertarUsuario( Model template, @RequestParam String titulo, @RequestParam String autor,
 			@RequestParam String editorial, @RequestParam int anio, @RequestParam String sinopsis,
 			@RequestParam String urlImagen, @RequestParam String genero) throws SQLException {
+		
 		if (titulo.length() == 0 || autor.length() == 0 || editorial.length() == 0) {
 			template.addAttribute("mensaje", "Algunos campos necesarios no han sido completados");
 			template.addAttribute("urlImagen", urlImagen);
@@ -77,7 +87,7 @@ public class LibrosController {
 		connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),
 				env.getProperty("spring.datasource.username"), env.getProperty("spring.datasource.password"));
 
-		PreparedStatement consulta = connection.prepareStatement("SELECT * FROM libros WHERE id_libros = ?;");
+		PreparedStatement consulta = connection.prepareStatement("SELECT * FROM libros WHERE id_libro = ?;");
 
 		consulta.setInt(1, id);
 
@@ -115,7 +125,7 @@ public class LibrosController {
 				env.getProperty("spring.datasource.username"), env.getProperty("spring.datasource.password"));
 
 		PreparedStatement consulta = connection.prepareStatement(
-				"UPDATE libros SET titulo = ?, autor_a = ?, editorial = ?, anio = ?, sinopsis = ?, url_fotolibro = ?, genero = ? WHERE id_libros = ?;");
+				"UPDATE libros SET titulo = ?, autor_a = ?, editorial = ?, anio = ?, sinopsis = ?, url_fotolibro = ?, genero = ? WHERE id_libro = ?;");
 
 		consulta.setString(1, titulo);
 		consulta.setString(2, autor);
@@ -147,7 +157,7 @@ public class LibrosController {
 				env.getProperty("spring.datasource.username"), env.getProperty("spring.datasource.password"));
 
 		PreparedStatement consulta = connection.prepareStatement(
-				"SELECT * FROM libros WHERE id_libros = ?;");
+				"SELECT * FROM libros WHERE id_libro = ?;");
 
 		consulta.setInt(1, id);
 
@@ -170,8 +180,7 @@ public class LibrosController {
 			template.addAttribute("genero", genero);
 
 		}
-		
-		PreparedStatement consulta2 = connection.prepareStatement("SELECT * FROM comentarios WHERE id_libros = ?;");
+		PreparedStatement consulta2 = connection.prepareStatement("SELECT * FROM comentarios WHERE id_libro = ?;");
 		
 		consulta2.setInt(1, id);
 		ResultSet resultado2 = consulta2.executeQuery();
@@ -180,11 +189,11 @@ public class LibrosController {
 
 		while (resultado2.next()) {
 			int id_comentario = resultado2.getInt("id_comentario");
-			int id_libros = resultado2.getInt("id_libros");
+			int id_libro = resultado2.getInt("id_libro");
 			int id_usuario = resultado2.getInt("id_usuario");
 			String comentario = resultado2.getString("comentario");
 
-			Comentarios c = new Comentarios(id_comentario, id_libros, id_usuario, comentario);
+			Comentarios c = new Comentarios(id_comentario, id_libro , id_usuario, comentario);
 			listadoComentarios.add(c);
 		}
 		
@@ -192,15 +201,22 @@ public class LibrosController {
 
 		return "detalleLibro";
 	}
-	@PostMapping("/procesar-comentario/{id}")
-	public String procesarComentario(Model template , @RequestParam int id, @RequestParam int id_usuario, @RequestParam String comentario) throws SQLException {
-			Connection connection;
+	@PostMapping("/procesarComentario/{id}")
+	public String procesarComentario(HttpSession session, Model template , @PathVariable int id,
+			 @RequestParam String comentario) throws SQLException {
+		
+		Usuario logueado = UsuarioHelper.usuarioLogueado(session);
+		
+		int id_usuario = logueado.getId_usuario();
+		template.addAttribute("id_u", id_usuario);
+		
+		Connection connection;
 			connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),
 					env.getProperty("spring.datasource.username"), env.getProperty("spring.datasource.password"));
-
-			PreparedStatement consulta = connection.prepareStatement("INSERT INTO comentarios(id_libros, id_usuario, comentario) VALUES( ?, ?, ?);");
+			
+			PreparedStatement consulta = connection.prepareStatement("INSERT INTO comentarios (id_libro, id_usuario, comentario) VALUES ( ? , ?, ? );");
 			consulta.setInt(1, id);
-			consulta.setInt(2, id_usuario);
+			consulta.setInt(2, id_usuario);				
 			consulta.setString(3, comentario);
 			
 			template.addAttribute("comentario", comentario);
@@ -208,8 +224,7 @@ public class LibrosController {
 			consulta.executeUpdate();
 
 			connection.close();
-			return "redirect:/detalleLibro/" + id ;
-		
+			return "redirect:/detalleLibro/" + id;
 	}
 
 	@GetMapping("/eliminarLibro/{id}")
@@ -218,7 +233,7 @@ public class LibrosController {
 		connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),
 				env.getProperty("spring.datasource.username"), env.getProperty("spring.datasource.password"));
 
-		PreparedStatement consulta = connection.prepareStatement("DELETE FROM libros WHERE id_libros = ?;");
+		PreparedStatement consulta = connection.prepareStatement("DELETE FROM libros WHERE id_libro = ?;");
 		consulta.setInt(1, id);
 
 		consulta.executeUpdate();
@@ -241,7 +256,7 @@ public class LibrosController {
 		ArrayList<Libro> listadoLibros = new ArrayList<Libro>();
 
 		while (resultado.next()) {
-			int id = resultado.getInt("id_libros");
+			int id = resultado.getInt("id_libro");
 			String urlImagen = resultado.getString("url_fotolibro");
 			String titulo = resultado.getString("titulo");
 			String autor = resultado.getString("autor_a");
@@ -255,7 +270,7 @@ public class LibrosController {
 
 		template.addAttribute("listadoLibros", listadoLibros);
 
-		return "listadoLibros";
+		return "listadoLibros2";
 	}
 
 	@GetMapping("/busqueda")
@@ -281,7 +296,7 @@ public class LibrosController {
 			ArrayList<Libro> listadoLibros = new ArrayList<Libro>();
 
 			while (resultado.next()) {
-				int id = resultado.getInt("id_libros");
+				int id = resultado.getInt("id_libro");
 				String urlImagen = resultado.getString("url_fotolibro");
 				String titulo = resultado.getString("titulo");
 				String autor = resultado.getString("autor_a");
@@ -305,7 +320,7 @@ public class LibrosController {
 			ArrayList<Libro> listadoLibros = new ArrayList<Libro>();
 
 			while (resultado.next()) {
-				int id = resultado.getInt("id_libros");
+				int id = resultado.getInt("id_libro");
 				String urlImagen = resultado.getString("url_fotolibro");
 				String titulo = resultado.getString("titulo");
 				String autor = resultado.getString("autor_a");

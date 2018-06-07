@@ -6,7 +6,7 @@
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
 	crossorigin="anonymous"></script>
 
-		<script src="/js/listado.js"></script>
+		<script src="/js/general.js"></script>
 		<meta charset="UTF-8"></meta>
 	</head>
 
@@ -19,7 +19,9 @@
 		</form>
 		<input id="seleccionarTodas" type="checkbox" ></input>
 		<label>Seleccionar todos</label><br></br>
-	
+		
+	<!-- buscar th:src if condition -->
+		
 		<div class="tarjeta-libros" th:each="libros:${listadoLibros}">
 			<img th:src="${libros.url_fotolibro}" title="imagenDePortada" class="verPortada"></img><br></br>
 			<label>Titulo: </label><a th:href="'/detalleLibro/' + ${libros.id}" th:text="${libros.titulo}">Titulo</a><br></br>

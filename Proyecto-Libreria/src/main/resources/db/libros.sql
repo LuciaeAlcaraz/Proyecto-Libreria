@@ -1,4 +1,4 @@
-CREATE SEQUENCE public.libros_id_libros_seq
+CREATE SEQUENCE public.libros_id_libro_seq
     INCREMENT 1
     START 1
     MINVALUE 1
@@ -11,7 +11,7 @@ CREATE SEQUENCE public.libros_id_libros_seq
 
 CREATE TABLE public.libros
 (
-    id_libros integer NOT NULL DEFAULT nextval('libros_id_libros_seq'::regclass),
+    id_libro integer NOT NULL DEFAULT nextval('libros_id_libro_seq'::regclass),
     titulo text COLLATE pg_catalog."default" NOT NULL,
     autor_a text COLLATE pg_catalog."default" NOT NULL,
     editorial text COLLATE pg_catalog."default",
@@ -19,7 +19,7 @@ CREATE TABLE public.libros
     sinopsis text COLLATE pg_catalog."default",
     url_fotolibro text COLLATE pg_catalog."default",
     genero text COLLATE pg_catalog."default",
-    CONSTRAINT libros_pkey PRIMARY KEY (id_libros)
+    CONSTRAINT libro_pkey PRIMARY KEY (id_libro)
 )
 WITH (
     OIDS = FALSE

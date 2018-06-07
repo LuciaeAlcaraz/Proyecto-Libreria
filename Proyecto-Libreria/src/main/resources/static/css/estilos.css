@@ -24,3 +24,24 @@
 #sinopsis {
 	width: 400px;
 }
+.formulario {
+	color: #0e0e0e;
+	background-color: #ffffff85;
+	margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}	
+
+.formulario::placeholder { 
+    color: #0e0e0e;
+}
+form
+{
+   padding:2px;
+   cursor:pointer;
+   display:block;
+   width:300px;
+   margin: 0 auto;
+   text-align:left;
+}  
