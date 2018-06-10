@@ -22,14 +22,14 @@ public class UsuarioHelper {
 	private Environment env;
 	
 	
-	public boolean intentarLoguearse(HttpSession session, String nombre, String contra) throws SQLException{
+	public boolean intentarLoguearse(HttpSession session, String nombre, String contrasenia) throws SQLException{
 		Connection connection;
 		connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"), env.getProperty("spring.datasource.username"), env.getProperty("spring.datasource.password"));
 		
 		PreparedStatement consulta = 
 				connection.prepareStatement("SELECT * FROM usuarios WHERE nombre = ? AND contrasenia = ?;");
 		consulta.setString(1, nombre);
-		consulta.setString(2, contra);
+		consulta.setString(2, contrasenia);
 		
 		ResultSet resultado = consulta.executeQuery();
 		

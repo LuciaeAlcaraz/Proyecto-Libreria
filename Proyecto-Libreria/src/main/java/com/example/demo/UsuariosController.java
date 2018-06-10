@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
 
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.model.Usuario;
-
 @Controller
 public class UsuariosController {
 	
@@ -28,12 +25,6 @@ public class UsuariosController {
 	
 	@Autowired
 	private UsuarioHelper UsuarioHelper;
-	
-	
-	@GetMapping("/paginaBienvenida")
-	public String bienvenida() {
-		return "estructura";
-	}
 
 	@GetMapping("/login")
 	public String login() {
@@ -45,7 +36,7 @@ public class UsuariosController {
 			throws SQLException {
 		boolean sePudo = UsuarioHelper.intentarLoguearse(session, nombre, contrasenia);
 		if (sePudo) {
-			return "redirect:/paginaBienvenida";
+			return "redirect:/";
 		} else {
 			template.addAttribute("mensaje", "La información ingresada no es correcta");
 			template.addAttribute("nombreDeUsuario", nombre);
@@ -88,7 +79,7 @@ public class UsuariosController {
 
 			connection.close();
 		}
-		return "redirect:/paginaBienvenida";
+		return "redirect:/";
 	}
 	
 	@GetMapping("/editarUsuario/{id}")
@@ -113,6 +104,9 @@ public class UsuariosController {
 			template.addAttribute("contrasenia", contrasenia);
 			
 		}
+		
+		connection.close();
+		
 		return "usuarioEditar";
 	}
 
@@ -136,6 +130,8 @@ public class UsuariosController {
 		
 		consulta.executeUpdate();
 
+		connection.close();
+		
 		return "redirect:/detalleUsuario/" + id;
 	}
 
@@ -161,6 +157,8 @@ public class UsuariosController {
 			template.addAttribute("urlImagen", urlImagen);
 		}
 
+		connection.close();
+		
 		return "usuarioEnDetalle";
 	}
 
@@ -176,32 +174,5 @@ public class UsuariosController {
 
 		connection.close();
 		return "redirect:/listadoDeUsuarios";
-	}
-
-	@GetMapping("/listadoDeUsuarios")
-	public String listado(Model template) throws SQLException {
-
-		Connection connection;
-		connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"), env.getProperty("spring.datasource.username"), env.getProperty("spring.datasource.password"));
-
-		PreparedStatement consulta = connection.prepareStatement("SELECT * FROM usuarios;");
-
-		ResultSet resultado = consulta.executeQuery();
-
-		ArrayList<Usuario> listadoUsuarios = new ArrayList<Usuario>();
-
-		while (resultado.next()) {
-			int id = resultado.getInt("id_usuario");
-			String nombre = resultado.getString("nombre");
-			String contrasenia = resultado.getString("contrasenia");
-			String urlImagen = resultado.getString("url_foto");
-			
-			Usuario x = new Usuario(id, nombre, contrasenia, urlImagen);
-			listadoUsuarios.add(x);
-		}
-
-		template.addAttribute("listadoUsuarios", listadoUsuarios);
-
-		return "usuarioListado";
 	}
 }

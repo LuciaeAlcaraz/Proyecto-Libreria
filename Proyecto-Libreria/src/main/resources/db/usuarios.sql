@@ -4,8 +4,6 @@ CREATE SEQUENCE public.usuarios_id_usuario_seq
     MINVALUE 1
     MAXVALUE 2147483647
     CACHE 1;
-
-ALTER SEQUENCE public.usuarios_id_usuario_seq;
     
 -- Table: public.usuarios
 
@@ -24,8 +22,6 @@ WITH (
     OIDS = FALSE
 )
 TABLESPACE pg_default;
-
-ALTER TABLE public.usuarios;
     
 INSERT INTO usuarios( nombre, contrasenia, url_foto) VALUES ('Maria', '12345', 'https://cdn.filestackcontent.com/bU7TFjI8QP2B1j7jSf8g');
 INSERT INTO usuarios( nombre, contrasenia, url_foto) VALUES ('Valen', 'contrasenia123', 'https://cdn.filestackcontent.com/SlKbdPDISUqRPo0yyl55');

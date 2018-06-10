@@ -164,7 +164,7 @@ img::-moz-selection {
 header.masthead {
 	padding-top: 10rem;
 	padding-bottom: calc(10rem - 56px);
-	background-image: url(../img/header.jpg);
+	background-image: url(/img/header.jpg);
 	background-position: center center;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
@@ -192,12 +192,36 @@ header.masthead p {
 }
 
 @media ( min-width :992px) {
-	header.masthead {
+header.masthead{
 		height: 100vh;
-		min-height: 650px;
+		min-height: 600px;
 		padding-top: 0;
 		padding-bottom: 0
 	}
+
+@media ( min-width :992px) {
+	header.listado{
+		height: 90vh;
+		min-height: 590px;
+		padding-top: 0;
+		padding-bottom: 0
+	}
+	@media ( min-width :992px) {
+header.detalle{
+		height: 100vh;
+		min-height: 900px;
+		padding-top: 0;
+		padding-bottom: 0
+	}
+	@media ( min-width :992px) {
+header.favoritos{
+		height: 80vh;
+		min-height: 100px;
+		padding-top: 0;
+		padding-bottom: 0
+	}
+	
+
 	header.masthead h1 {
 		font-size: 3rem
 	}
@@ -207,10 +231,6 @@ header.masthead p {
 	header.masthead h1 {
 		font-size: 4rem
 	}
-}
-
-.service-box {
-	max-width: 400px
 }
 
 .portfolio-box {

@@ -1,30 +1,40 @@
 <!doctype html>
-<html>
+<html layout:decorator="estructura">
 	<head>
-	 <title>Detalle libro</title>
+		<title>Detalle del Libro</title>
 		<link rel="stylesheet" type="text/css" href="/css/estilos.css"></link>
+		<script src="https://static.filestackapi.com/v3/filestack.js"></script>
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+			crossorigin="anonymous"></script>
+		<script src="/js/general.js"></script>
+		<script src="/js/imagen.js"></script>
 		<meta charset="UTF-8"></meta>
 	</head>
-
-	<body>
-		<div class="tarjeta-libros">
-			<img th:src="${urlImagen}" title="imagenDePortada" class="imagenDePortada"></img><br></br>
-			<label>Titulo: </label><label th:text="${titulo}">to</label><br></br>
-			<label>Autor: </label><label th:text="${autor_a}">sdds</label><br></br>
-			<label>Editorial: </label><label th:text="${editorial}">true</label><br></br>
-			<label>Año: </label><label th:text="${anio}">true</label><br></br>
-			<label>Sinopsis:</label><br></br>
-			<label th:text="${sinopsis}"></label><br></br>
-			<label>Genero: </label><label th:text="${genero}"></label><br></br>
-			<a href="/listadoDeLibros/">Volver a listado</a>
+	<body id="page-top" layout:fragment="contenido">
+		<header class="masthead text-center text-white d-flex detalle">
+				<div class="container my-auto">
+				<div class="row">
+				<div class="col-lg-8 mx-auto">
+					<p class="section-heading text-white">Información del libro: </p>
+					<img th:src="${urlImagen}" onerror="this.src='https://res.cloudinary.com/dbvpxjxay/image/upload/v1528593595/mi_carpeta/wfpklnhplbcvjzethqkt.png'" title="imagenDePerfil" class="verPortada"></img><br></br>
+					<p class="section-heading text-white">Titulo: </p> <label th:text="${titulo}">Titulo</label><br></br>
+					<p class="section-heading text-white">Autor: </p><label th:text="${autor_a}">Autor</label><br></br>
+					<p class="section-heading text-white">Editorial: </p><label th:text="${editorial}">Editor</label><br></br>
+					<p class="section-heading text-white">Año: </p><label th:text="${anio}">Anio</label><br></br>
+					<p class="section-heading text-white">Sinopsis:</p>
+					<label th:text="${sinopsis}"></label><br></br>
+					<p class="section-heading text-white">Genero: </p> <label th:text="${genero}"></label><br></br>
+				<a class="btn btn-primary btn-xs js-scroll-trigger"  href="/listadoDeLibros/">Volver a listado</a><br></br>
+					<a class="btn btn-primary btn-xs js-scroll-trigger"  th:href="'/agregarFavorito/' + ${id}">Agregar a lista de favoritos</a>
+				</div>
+			</div>
 		</div>
-		<form th:action="'/procesarComentario/' + ${id}" method="POST">
-			<textarea cols="" name="comentario" placeholder="Agregar comentario..."></textarea>
-			<input type="submit"></input>
-			</form>
-		<div class="tarjeta-comentarios" th:each="comentarios:${listadoComentarios}">
-			<label th:text="${comentarios.comentario}">Comentario</label><br></br>
-		</div>
-	</body>
-
+	</header>
+	    <section class="bg-dark text-white">
+      <div class="container text-center">
+        <h2 class="mb-4">Comentarios</h2>
+        <a class="btn btn-light btn-xl sr-button" href="">Comentar</a>
+      </div>
+    </section>
+</body>
 </html>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html layout:decorator="estructura">
 	<head>
 		<title>Listado de Libros</title>
 		<link rel="stylesheet" type="text/css" href="/css/estilos.css"></link>
@@ -10,27 +10,47 @@
 		<meta charset="UTF-8"></meta>
 	</head>
 
-	<body>
-		<form action="/resultado-busqueda/ + ${busqueda}" method="POST">
-			<input type="text" name="tituloBuscado" placeholder="Buscar por titulo" th:value="${tituloBuscado}"></input>
-			<input type="submit" value="Buscar"></input><br></br>
-			<input type="text" name="autorBuscado" placeholder="Buscar por autor" th:value="${autorBuscado}"></input>
-			<input type="submit" value="Buscar"></input><br></br>
+ <body id="page-top" layout:fragment="contenido">
+    <header class="masthead text-center text-white d-flex listado" >
+      <div class="container my-auto">
+        <div class="row">
+          <div class="col-lg-10 mx-auto">
+            <h1 class="text-uppercase">
+              <strong>Buscar libro por: </strong>
+            </h1>
+            <hr></hr>
+            <form action="/resultado-busqueda/ + ${busqueda}" method="POST">
+			<input type="text" name="tituloBuscado" placeholder="Titulo" th:value="${tituloBuscado}" class="formulario"></input>
+			<input type="submit" value="Buscar" class="btn btn-primary btn-xs js-scroll-trigger"></input><br></br>
+			<input type="text" name="autorBuscado" placeholder="Autor" th:value="${autorBuscado}" class="formulario"></input>
+			<input type="submit" value="Buscar" class="btn btn-primary btn-xs js-scroll-trigger"></input><br></br>
 		</form>
-		<input id="seleccionarTodas" type="checkbox" ></input>
-		<label>Seleccionar todos</label><br></br>
-		
-	<!-- buscar th:src if condition -->
-		
-		<div class="tarjeta-libros" th:each="libros:${listadoLibros}">
-			<img th:src="${libros.url_fotolibro}" title="imagenDePortada" class="verPortada"></img><br></br>
-			<label>Titulo: </label><a th:href="'/detalleLibro/' + ${libros.id}" th:text="${libros.titulo}">Titulo</a><br></br>
-			<label>Autor: </label><label th:text="${libros.autor}">Autor</label><br></br>
-			<label>Editorial: </label><label th:text="${libros.editorial}">Editorial</label><br></br>
-			<label>Año: </label><label th:text="${libros.anio}">2018</label><br></br>
-			<label>Genero: </label><label th:text="${libros.genero}">Genero</label><br></br>
-			<a th:href="'/editarLibro/' + ${libros.id}">Editar libro</a>
-			<a th:href="'/eliminarLibro/' + ${libros.id}">Eliminar libro</a>
-		</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="p-0" id="portfolio">
+      <div class="container-fluid p-0">
+        <div class="row no-gutters popup-gallery">
+          <div class="col-sm-2 col-sm-1" th:each="libros:${listadoLibros}">
+            <a class="portfolio-box" th:href="'/detalleLibro/' + ${libros.id}">
+            <img th:src="${libros.url_fotolibro}" onerror="this.src='https://res.cloudinary.com/dbvpxjxay/image/upload/v1528593595/mi_carpeta/wfpklnhplbcvjzethqkt.png'" title="imagenDePortada" class="verPortada img-fluid"></img>
+              <!-- <img th:src="${libros.url_fotolibro}" title="imagenDePortada" class="verPortada img-fluid"></img> --> 
+              <div class="portfolio-box-caption">
+                <div class="portfolio-box-caption-content">
+                  <div class="project-category text-faded" th:text="${libros.titulo}">
+                    Titulo
+                  </div>
+                  <div class="project-name" th:text="${libros.autor}">
+                    Autor
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
 	</body>
 </html>

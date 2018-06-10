@@ -33,7 +33,7 @@ public class LibrosController {
 	private UsuarioHelper UsuarioHelper;
 	
 	@GetMapping("/")
-	public String bienvenido() {
+	public String paginaPrincipal() {
 		return "estructura";
 	}
 
@@ -49,7 +49,7 @@ public class LibrosController {
 			@RequestParam String editorial, @RequestParam int anio, @RequestParam String sinopsis,
 			@RequestParam String urlImagen, @RequestParam String genero) throws SQLException {
 		
-		if (titulo.length() == 0 || autor.length() == 0 || editorial.length() == 0) {
+		if (titulo.length() == 0 || autor.length() == 0) {
 			template.addAttribute("mensaje", "Algunos campos necesarios no han sido completados");
 			template.addAttribute("urlImagen", urlImagen);
 			template.addAttribute("titulo", titulo);
@@ -65,6 +65,8 @@ public class LibrosController {
 					env.getProperty("spring.datasource.username"), env.getProperty("spring.datasource.password"));
 			PreparedStatement consulta = connection.prepareStatement(
 					"INSERT INTO libros(titulo, autor_a, editorial, anio, sinopsis, url_fotolibro, genero) VALUES(?, ?, ?, ?, ?, ?, ?);");
+		if(editorial.length() != 0){
+			
 			consulta.setString(1, titulo);
 			consulta.setString(2, autor);
 			consulta.setString(3, editorial);
@@ -72,7 +74,17 @@ public class LibrosController {
 			consulta.setString(5, sinopsis);
 			consulta.setString(6, urlImagen);
 			consulta.setString(7, genero);
-
+			
+		}else {
+			editorial = "-";
+			consulta.setString(1, titulo);
+			consulta.setString(2, autor);
+			consulta.setString(3, editorial);
+			consulta.setInt(4, anio);
+			consulta.setString(5, sinopsis);
+			consulta.setString(6, urlImagen);
+			consulta.setString(7, genero);
+		}
 			consulta.executeUpdate();
 
 			connection.close();
@@ -110,6 +122,8 @@ public class LibrosController {
 			template.addAttribute("sinopsis", sinopsis);
 			template.addAttribute("genero", genero);
 		}
+		
+		connection.close();
 
 		return "editarLibro";
 	}
@@ -146,6 +160,8 @@ public class LibrosController {
 		template.addAttribute("id", id);
 		consulta.executeUpdate();
 
+		connection.close();
+		
 		return "redirect:/detalleLibro/" + id;
 	}
 
@@ -198,7 +214,9 @@ public class LibrosController {
 		}
 		
 		template.addAttribute("listadoComentarios", listadoComentarios);
-
+		
+		connection.close();
+		
 		return "detalleLibro";
 	}
 	@PostMapping("/procesarComentario/{id}")
@@ -270,7 +288,9 @@ public class LibrosController {
 
 		template.addAttribute("listadoLibros", listadoLibros);
 
-		return "listadoLibros2";
+		connection.close();
+		
+		return "listadoLibros";
 	}
 
 	@GetMapping("/busqueda")
@@ -333,7 +353,70 @@ public class LibrosController {
 				template.addAttribute("listadoLibros", listadoLibros);
 			}
 		}
-
+		connection.close();
+		
 		return "listadoLibros";
 	}
+	
+	@GetMapping("/agregarFavorito/{id}")
+	public String agregarFavorito(HttpSession session, Model template , @PathVariable int id) throws SQLException {
+		
+		Usuario logueado = UsuarioHelper.usuarioLogueado(session);
+		
+		int id_usuario = logueado.getId_usuario();
+		template.addAttribute("id_u", id_usuario);
+		
+		Connection connection;
+			connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),
+					env.getProperty("spring.datasource.username"), env.getProperty("spring.datasource.password"));
+			
+			PreparedStatement consulta = connection.prepareStatement("INSERT INTO favoritos (id_libro, id_usuario) VALUES ( ?, ? );");
+			consulta.setInt(1, id);
+			consulta.setInt(2, id_usuario);				
+
+			consulta.executeUpdate();
+
+			connection.close();
+			return "redirect:/listadoDeFavoritos/" + id_usuario;
+	}
+	@GetMapping("/listadoDeFavoritos/{id_usuario}")
+	public String listadoFavoritos(HttpSession session, Model template) throws SQLException {
+		
+		Usuario logueado = UsuarioHelper.usuarioLogueado(session);
+		
+		int id_usuario = logueado.getId_usuario();
+		template.addAttribute("id_u", id_usuario);
+		
+		Connection connection;
+			connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),
+					env.getProperty("spring.datasource.username"), env.getProperty("spring.datasource.password"));
+			
+			PreparedStatement consulta = connection.prepareStatement(
+					"SELECT * FROM favoritos, libros WHERE favoritos.id_usuario = ? AND favoritos.id_libro = libros.id_libro");
+						
+			consulta.setInt(1, id_usuario);
+			
+			ResultSet resultado = consulta.executeQuery();
+			ArrayList<Libro> listadoLibros = new ArrayList<Libro>();
+
+			while (resultado.next()) {
+				int id = resultado.getInt("id_libro");
+				String urlImagen = resultado.getString("url_fotolibro");
+				String titulo = resultado.getString("titulo");
+				String autor = resultado.getString("autor_a");
+				String editorial = resultado.getString("editorial");
+				int anio = resultado.getInt("anio");
+				String genero = resultado.getString("genero");
+
+				Libro x = new Libro(id, titulo, autor, editorial, anio, urlImagen, genero);
+				listadoLibros.add(x);
+			}
+
+			template.addAttribute("listadoLibros", listadoLibros);
+			
+			connection.close();
+		
+			return "listadoFavoritos";
+	}
+	
 }

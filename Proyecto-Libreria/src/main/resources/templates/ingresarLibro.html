@@ -22,6 +22,7 @@
           </div>
           <div class="col-lg-8 mx-auto">
             <p class="text-faded mb-5">Datos del nuevo libro:</p>
+            <p class="text-faded mb-5" th:text="${mensaje}">mensaje</p>
             <form action="/insertar-nuevoLibro" method="POST">
 			<input id="urlImagen" type="text" hidden="hidden" name="urlImagen"></input>
 			<input class="btn btn-primary btn-xl js-scroll-trigger"  id="subirImagen" type="button"  value="Subir Imagen"></input><br></br><br></br>

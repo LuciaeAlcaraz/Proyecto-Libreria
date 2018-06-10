@@ -15,7 +15,7 @@
 		<label th:text="${mensaje}"></label>
 		
 		<form th:action="'/modificarUsuario/' + ${id}" method="POST">
-			<img th:src="${urlImagen}" title="imagenDePerfil" class="verImagenPerfil"></img>
+			<img th:src="${urlImagen}" onerror="https://res.cloudinary.com/dbvpxjxay/image/upload/v1528594098/mi_carpeta/gux7letqf8gdt2abh9x0.png'" title="imagenDePerfil" class="verImagenPerfil"></img>
 			<input id="urlImagen" hidden="hidden" type="text" name="urlImagen" th:value="${urlImagen}"></input>
 			<input id="subirImagen" type="button"  value="Cambiar foto"></input><br></br>
 			<input type="text" name="nombre" placeholder="Nombre de usuario" th:value="${nombreDeUsuario}"></input>

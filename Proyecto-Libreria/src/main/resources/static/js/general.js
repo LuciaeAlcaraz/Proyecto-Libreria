@@ -9,5 +9,6 @@ $(document).ready(function() {
 			$(".tarjeta-libros").removeClass("seleccionada");
 		}
 	});
+
 });
 
