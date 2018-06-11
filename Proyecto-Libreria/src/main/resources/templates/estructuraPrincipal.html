@@ -38,7 +38,7 @@
   </head>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav" layout:fragment="logueado">
       <div class="container">
         <a class="navbar-brand js-scroll-trigger" href="/">Proyecto Libreria</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive"
@@ -90,10 +90,10 @@
         </div>
       </div>
     </section>
-    <section class="bg-dark text-white">
+     <section class="bg-dark text-white" layout:fragment="favoritos">
       <div class="container text-center">
         <h2 class="mb-4">Crea una lista con tus libros favoritos</h2>
-        <a class="btn btn-light btn-xl sr-button" href="favoritos">Ir a lista</a>
+        <a class="btn btn-light btn-xl sr-button" href="/registrarUsuario">Registrarse</a>
       </div>
     </section>
  </body>

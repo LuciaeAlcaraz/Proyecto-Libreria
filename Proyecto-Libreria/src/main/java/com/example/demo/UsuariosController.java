@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.model.Usuario;
+
 @Controller
 public class UsuariosController {
 	
@@ -26,6 +28,11 @@ public class UsuariosController {
 	@Autowired
 	private UsuarioHelper UsuarioHelper;
 
+	@GetMapping("/paginaPrincipal")
+	public String paginaPrincipal() {
+		return "paginaPrincipal"; 
+	}
+	
 	@GetMapping("/login")
 	public String login() {
 		return "login"; 
@@ -36,7 +43,7 @@ public class UsuariosController {
 			throws SQLException {
 		boolean sePudo = UsuarioHelper.intentarLoguearse(session, nombre, contrasenia);
 		if (sePudo) {
-			return "redirect:/";
+			return "redirect:/paginaPrincipal";
 		} else {
 			template.addAttribute("mensaje", "La información ingresada no es correcta");
 			template.addAttribute("nombreDeUsuario", nombre);
@@ -83,14 +90,23 @@ public class UsuariosController {
 	}
 	
 	@GetMapping("/editarUsuario/{id}")
-	public String editar(Model template, @PathVariable int id) throws SQLException {
-
+	public String editar(HttpSession session, Model template, @PathVariable int id) throws SQLException {
+ 
+		Usuario logueado = UsuarioHelper.usuarioLogueado(session);
+		if (logueado == null) {
+			
+			return "redirect:/login";
+		}else {
+			
+			int idUsuario = logueado.getId_usuario();
+			template.addAttribute("id", idUsuario);
+			
 		Connection connection;
 		connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"), env.getProperty("spring.datasource.username"), env.getProperty("spring.datasource.password"));
 
 		PreparedStatement consulta = connection.prepareStatement("SELECT * FROM usuarios WHERE id_usuario = ?;");
 
-		consulta.setInt(1, id);
+		consulta.setInt(1, idUsuario);
 
 		ResultSet resultado = consulta.executeQuery();
 
@@ -109,7 +125,7 @@ public class UsuariosController {
 		
 		return "usuarioEditar";
 	}
-
+}
 	@PostMapping("/modificarUsuario/{id}")
 	public String editarUsuario(Model template, @PathVariable int id, @RequestParam String nombre, @RequestParam String contrasenia, @RequestParam String urlImagen) throws SQLException {
 
@@ -132,18 +148,29 @@ public class UsuariosController {
 
 		connection.close();
 		
-		return "redirect:/detalleUsuario/" + id;
+		return "redirect:PerfilUsuario/" + id;
 	}
 
-	@GetMapping("/detalleUsuario/{id}")
-	public String detalle(Model template, @PathVariable int id) throws SQLException {
+	@GetMapping("/PerfilUsuario/{id}")
+	public String detalle(HttpSession session, Model template) throws SQLException {
 
+
+		Usuario logueado = UsuarioHelper.usuarioLogueado(session);
+		if (logueado == null) {
+			
+			return "redirect:/login";
+		}else {
+			
+			int idUsuario = logueado.getId_usuario();
+			template.addAttribute("id", idUsuario);
+			
+		
 		Connection connection;
 		connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"), env.getProperty("spring.datasource.username"), env.getProperty("spring.datasource.password"));
 
 		PreparedStatement consulta = connection.prepareStatement("SELECT * FROM usuarios WHERE id_usuario = ?;");
 
-		consulta.setInt(1, id);
+		consulta.setInt(1, idUsuario);
 
 		ResultSet resultado = consulta.executeQuery();
 
@@ -161,18 +188,33 @@ public class UsuariosController {
 		
 		return "usuarioEnDetalle";
 	}
-
+}
 	@GetMapping("/eliminarUsuario/{id}")
-	public String eliminar(@PathVariable int id) throws SQLException {
+	public String eliminar(HttpSession session, Model template, @PathVariable int id) throws SQLException {
+
+		Usuario logueado = UsuarioHelper.usuarioLogueado(session);
+		if (logueado == null) {
+			
+			return "redirect:/login";
+		}else {
+			
+			int idUsuario = logueado.getId_usuario();
+			template.addAttribute("id", idUsuario);
+		
 		Connection connection;
 		connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"), env.getProperty("spring.datasource.username"), env.getProperty("spring.datasource.password"));
 
 		PreparedStatement consulta = connection.prepareStatement("DELETE FROM usuarios WHERE id_usuario = ?;");
-		consulta.setInt(1, id);
+		consulta.setInt(1, idUsuario);
 
 		consulta.executeUpdate();
 
 		connection.close();
-		return "redirect:/listadoDeUsuarios";
+		return "redirect:/usuarioEliminado";
+		}
+	}
+	@GetMapping("/usuarioEliminado")
+	public String eliminado() {
+		return "usuarioEliminado";
 	}
 }

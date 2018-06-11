@@ -34,13 +34,16 @@ public class LibrosController {
 	
 	@GetMapping("/")
 	public String paginaPrincipal() {
-		return "estructura";
+		return "estructuraPrincipal";
 	}
 
 	@GetMapping("/nuevoLibro")
-	public String nuevoLibro() {
+	public String nuevoLibro(HttpSession session) throws SQLException {
+		Usuario logueado = UsuarioHelper.usuarioLogueado(session);
 		
-
+		if (logueado == null) {
+			return "redirect:/login";
+		}
 		return "ingresarLibro";
 	}
 
@@ -93,8 +96,12 @@ public class LibrosController {
 	}
 
 	@GetMapping("/editarLibro/{id}")
-	public String editar(Model template, @PathVariable int id) throws SQLException {
-
+	public String editar(HttpSession session, Model template, @PathVariable int id) throws SQLException {
+			Usuario logueado = UsuarioHelper.usuarioLogueado(session);
+			
+			if (logueado == null) {
+				return "redirect:/login";
+			}else {
 		Connection connection;
 		connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),
 				env.getProperty("spring.datasource.username"), env.getProperty("spring.datasource.password"));
@@ -127,7 +134,7 @@ public class LibrosController {
 
 		return "editarLibro";
 	}
-
+ }
 	@PostMapping("/modificarLibro/{id}")
 	public String editarUsuario(Model template, @PathVariable int id, @RequestParam String titulo,
 			@RequestParam String autor, @RequestParam String editorial, @RequestParam int anio,
@@ -219,11 +226,14 @@ public class LibrosController {
 		
 		return "detalleLibro";
 	}
-	@PostMapping("/procesarComentario/{id}")
+	@GetMapping("/procesarComentario/{id}")
 	public String procesarComentario(HttpSession session, Model template , @PathVariable int id,
 			 @RequestParam String comentario) throws SQLException {
 		
 		Usuario logueado = UsuarioHelper.usuarioLogueado(session);
+		if (logueado == null) {
+			return "redirect:/login";
+		}else {
 		
 		int id_usuario = logueado.getId_usuario();
 		template.addAttribute("id_u", id_usuario);
@@ -244,9 +254,16 @@ public class LibrosController {
 			connection.close();
 			return "redirect:/detalleLibro/" + id;
 	}
-
+ }
 	@GetMapping("/eliminarLibro/{id}")
-	public String eliminar(@PathVariable int id) throws SQLException {
+	public String eliminar(HttpSession session , @PathVariable int id) throws SQLException {
+		
+		Usuario logueado = UsuarioHelper.usuarioLogueado(session);
+		
+		if (logueado == null) {
+			return "redirect:/login";
+		}else {
+		
 		Connection connection;
 		connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),
 				env.getProperty("spring.datasource.username"), env.getProperty("spring.datasource.password"));
@@ -259,7 +276,7 @@ public class LibrosController {
 		connection.close();
 		return "redirect:/listadoDeLibros";
 	}
-
+ }
 	@GetMapping("/listadoDeLibros")
 	public String listado(Model template) throws SQLException {
 
@@ -363,6 +380,10 @@ public class LibrosController {
 		
 		Usuario logueado = UsuarioHelper.usuarioLogueado(session);
 		
+		if (logueado == null) {
+			return "redirect:/login";
+		}else {
+		
 		int id_usuario = logueado.getId_usuario();
 		template.addAttribute("id_u", id_usuario);
 		
@@ -379,14 +400,19 @@ public class LibrosController {
 			connection.close();
 			return "redirect:/listadoDeFavoritos/" + id_usuario;
 	}
+ }		
 	@GetMapping("/listadoDeFavoritos/{id_usuario}")
 	public String listadoFavoritos(HttpSession session, Model template) throws SQLException {
 		
 		Usuario logueado = UsuarioHelper.usuarioLogueado(session);
 		
-		int id_usuario = logueado.getId_usuario();
-		template.addAttribute("id_u", id_usuario);
+		if (logueado == null) {
 		
+			return "redirect:/login";
+		}else {
+			
+			int id_usuario = logueado.getId_usuario();
+			template.addAttribute("id_u", id_usuario);
 		Connection connection;
 			connection = DriverManager.getConnection(env.getProperty("spring.datasource.url"),
 					env.getProperty("spring.datasource.username"), env.getProperty("spring.datasource.password"));
@@ -418,5 +444,5 @@ public class LibrosController {
 		
 			return "listadoFavoritos";
 	}
-	
+ }
 }

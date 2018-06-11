@@ -1,8 +1,9 @@
 <!doctype html>
-<html layout:decorator="estructura">
+<html layout:decorator="nav">
 	<head>
 		<title>Favoritos</title>
 		<link rel="stylesheet" type="text/css" href="/css/estilos.css"></link>
+		<script src="https://static.filestackapi.com/v3/filestack.js"></script>
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
 	crossorigin="anonymous"></script>
 
@@ -25,11 +26,12 @@
     </header>
 
     <section class="p-0" id="portfolio">
-      <div class="container-fluid p-0">
+      <div class="container-fluid p-0 bg-dark text-white">
         <div class="row no-gutters popup-gallery">
           <div class="col-sm-2 col-sm-1" th:each="libros:${listadoLibros}">
             <a class="portfolio-box" th:href="'/detalleLibro/' + ${libros.id}">
-            <img th:src="${libros.url_fotolibro}" onerror="this.src='https://res.cloudinary.com/dbvpxjxay/image/upload/v1528593595/mi_carpeta/wfpklnhplbcvjzethqkt.png'" title="imagenDePortada" class="verPortada img-fluid"></img> 
+            <img th:src="${libros.url_fotolibro}" 
+            onerror="this.src='https://res.cloudinary.com/dbvpxjxay/image/upload/v1528593595/mi_carpeta/wfpklnhplbcvjzethqkt.png'" title="imagenDePortada" class="verPortada img-fluid"></img> 
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
                   <div class="project-category text-faded" th:text="${libros.titulo}">
