@@ -45,3 +45,10 @@ form
    margin: 0 auto;
    text-align:left;
 }  
+input, a, button, .comentario {
+	margin: 4px;
+}
+input, textarea, .comentario {
+	margin: 4px;
+    border-radius: 300px
+}

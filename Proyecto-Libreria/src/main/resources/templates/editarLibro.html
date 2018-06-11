@@ -24,7 +24,7 @@
 						<label>Autor: </label> <input name="autor" type="text" th:value="${autor_a}" class="formulario"></input><br></br>
 						<label>Editorial: </label> <input name="editorial" type="text" th:value="${editorial}" class="formulario"></input><br></br>
 						<label>Año: </label><input type="number" name="anio" min="1800" max="2099" step="1" th:value="${anio}" class="formulario" /><br></br>
-						<label>Sinopsis: </label><input id="sinopsis" name="sinopsis" th:value="${sinopsis}" class="formulario sinopsis"></input><br></br>
+						<label>Sinopsis: </label><textarea class="formulario" name="sinopsis" th:value="${sinopsis}" placeholder="Sinopsis"></textarea><br></br>
 						<label>Géneros</label><br></br>
 						<input type="text" name="genero" class="genero formulario"  th:value="${genero}"></input><br></br>
 						<input class="btn btn-primary btn-xl js-scroll-trigger" type="submit"></input>

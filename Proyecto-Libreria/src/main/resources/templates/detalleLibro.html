@@ -33,13 +33,13 @@
 	    <section class="bg-dark text-white">
       <div class="container text-center">
         <h2 class="mb-4">Comentarios</h2>
-        <form th:action="'/procesarComentario/' + ${id}">
-       <textarea rows="" cols="" name="comentario" th:value="${comentario}"></textarea> 
+        <div class="text-center bg-primary comentario" th:each="comentarios:${listadoComentarios}">
+       <label th:text="${comentarios.comentario}"></label><br></br><br></br>
+      </div>
+      <form th:action="'/procesarComentario/' + ${id}">
+       <textarea rows="" cols="" name="comentario" class="comentario" th:value="${comentario}"></textarea> 
          <input class="btn btn-primary btn-xl js-scroll-trigger" type="submit"></input>
        </form>
-       <div class="col-sm-2 col-sm-1 bg-primary text-center" th:each="comentarios:${listadoComentarios}">
-       <label class="text-center" th:text="${comentarios.comentario}"></label><br></br><br></br>
-       </div>
       </div>
     </section>
 </body>
